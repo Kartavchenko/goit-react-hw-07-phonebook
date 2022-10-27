@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 export const ListContacts = ({ filteredContacts, deleteContact }) => {
-  const user = filteredContacts.map(({ id, name, number }) => {
+  const user = filteredContacts.map(({ id, name, phone }) => {
     return (
       <li
         key={id}
@@ -9,7 +9,7 @@ export const ListContacts = ({ filteredContacts, deleteContact }) => {
           marginBottom: '10px',
         }}
       >
-        {name}: {number}
+        {name}: {phone}
         <button
           type="button"
           onClick={() => deleteContact(id)}
