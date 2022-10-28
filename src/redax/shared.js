@@ -7,12 +7,12 @@ export const getFetch = async () => {
     return data;
 }
 
-export const addToPhonebook = async() => {
-    const {data: result} = await axios.post("/contacts");
-    return result;
+export const addToPhonebook = async(item) => {
+    const {data} = await axios.post("/contacts", item);
+    return data;
 }
 
-export const removePhoneNumber = async (id) => {
+export const removePhoneNumber = async(id) => {
     const {data} = await axios.delete(`/contacts/${id}`);
     return data;
 }

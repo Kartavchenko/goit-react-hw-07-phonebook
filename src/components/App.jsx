@@ -32,9 +32,17 @@ export const App = () => {
   const handleSubmit = e => {
     e.preventDefault();
     const form = e.target;
+    const {
+      elements: { name, number },
+    } = e.target;
     // const formName = form.elements.name.value;
     // const formNumber = form.elements.number.value;
-    dispatch(addPhoneNumber());
+    dispatch(
+      addPhoneNumber({
+        name: name.value,
+        phone: number.value,
+      })
+    );
     form.reset();
   };
 

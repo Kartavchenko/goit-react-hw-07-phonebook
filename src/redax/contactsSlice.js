@@ -1,20 +1,64 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchContacts, addPhoneNumber, removePhoneNumber } from './operation';
 
-const initialState = {
-    items: [],
-    isLoading: false,
-    error: null,
-}
+// const initialState = {
+//     items: [],
+//     isLoading: false,
+//     error: null,
+// }
+
+// const phoneContacts = createSlice({
+//   name: "contacts",
+//   initialState: {
+//     items: []
+//   },
+//   extraReducers: {
+//     [addPhoneNumber.pending](store) {
+//       console.log("store", store)
+//     },
+//     [addPhoneNumber.fulfilled](store, action) {
+//       console.log("fulfield", action.payload)
+//       store.items.push(action.payload)
+//     },
+//     [addPhoneNumber.rejected] (store, {payload})  {
+//       store.isLoading = false;
+//       store.error = payload;
+//     },
+//     [fetchContacts.fulfilled](store, action) {
+//       console.log("action", action)
+//       store.items = action.payload
+//     },
+//     [fetchContacts.rejected] (store, {payload})  {
+//       store.isLoading = false;
+//       store.error = payload;
+//     },
+//     [removePhoneNumber.pending] (store)  {
+//       store.isLoading = true;
+//     },
+//     [removePhoneNumber.fulfilled] (store, {payload})  {
+//       store.isLoading = false;
+//       store.items.filter(item => item.id !== payload);
+//     },
+//     [removePhoneNumber.rejected] (store, {payload})  {
+//       store.isLoading = false;
+//       store.error = payload;
+//     },
+//   }
+// })
+
 
 const phoneContacts = createSlice({
   name: "contacts", 
-  initialState,
+  initialState: {
+    items: [],
+    isLoading: false,
+    error: null,
+},
   extraReducers: {
-    [fetchContacts.pending] (store)  {
+    [fetchContacts.pending] (store)   {
       store.isLoading = true;
     },
-    [fetchContacts.fulfilled] (store, {payload})  {
+    [fetchContacts.fulfilled] (store, {payload}) {
       store.isLoading = false;
       store.items = payload;
     },
@@ -22,12 +66,13 @@ const phoneContacts = createSlice({
       store.isLoading = false;
       store.error = payload;
     },
-    [addPhoneNumber.pending] (store)  {
+    [addPhoneNumber.pending](store) {
+      console.log("pending", store)
       store.isLoading = true;
     },
-    [addPhoneNumber.fulfilled] (store, {payload})  {
-      store.isLoading = false;
-      store.items.push(payload.items);
+     [addPhoneNumber.fulfilled](store, action) {
+      console.log("fulfield", action.payload)
+      store.items.push(action.payload)
     },
     [addPhoneNumber.rejected] (store, {payload})  {
       store.isLoading = false;
@@ -35,10 +80,11 @@ const phoneContacts = createSlice({
     },
     [removePhoneNumber.pending] (store)  {
       store.isLoading = true;
+      console.log("pending")
     },
     [removePhoneNumber.fulfilled] (store, {payload})  {
       store.isLoading = false;
-      store.items.filter(item => item.id !== payload);
+      store.items = store.items.filter(item => item.id !== payload);
     },
     [removePhoneNumber.rejected] (store, {payload})  {
       store.isLoading = false;
@@ -47,7 +93,7 @@ const phoneContacts = createSlice({
   }
 }) 
 
-export default phoneContacts.reducer;
+export const reduser = phoneContacts.reducer
 
 // export const contactsSlice = createSlice({
 //   name: 'contacts',
