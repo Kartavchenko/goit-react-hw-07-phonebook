@@ -12,13 +12,11 @@ export const fetchContacts = createAsyncThunk(
         }
     })
 
-export const addPhoneNumber = createAsyncThunk(
+export const addContact = createAsyncThunk(
     "contacts/add",
     async (item, { rejectWithValue }) => {
         try {
-            console.log("item", item)
             const data  = await contactApi.addToPhonebook(item)
-            console.log("data", data)
             return data
         } catch (error) {
             return rejectWithValue(error)
@@ -26,7 +24,7 @@ export const addPhoneNumber = createAsyncThunk(
     }
 )
 
-export const removePhoneNumber = createAsyncThunk(
+export const removeContact = createAsyncThunk(
     "contacts/delete",
     async (id, { rejectWithValue }) => {
         try {

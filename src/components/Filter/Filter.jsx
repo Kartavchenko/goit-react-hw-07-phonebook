@@ -1,4 +1,4 @@
-export function Filter({ filter, handleFilter }) {
+export function Filter({ contactsFilter, handleFilter }) {
   return (
     <label
       style={{
@@ -14,7 +14,7 @@ export function Filter({ filter, handleFilter }) {
         }}
         type="text"
         name="filter"
-        value={filter}
+        value={contactsFilter}
         onChange={handleFilter}
       />
     </label>

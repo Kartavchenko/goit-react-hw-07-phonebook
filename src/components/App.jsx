@@ -1,28 +1,24 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-// import { nanoid } from 'nanoid';
 import { FormContact } from './Form/Form';
 import { ListContacts } from './List/List';
 import { Filter } from './Filter/Filter';
-import {
-  fetchContacts,
-  addPhoneNumber,
-  removePhoneNumber,
-} from 'redax/operation';
+import { filterContacts } from 'redax/filterSlise';
+import { fetchContacts, addContact, removeContact } from 'redax/operation';
 import {
   selectStatusFilter,
-  // selectContact,
   selectFilteredContacts,
+  getState,
 } from '../redax/selectors';
 
 export const App = () => {
-  // const userContact = useSelector(selectContact);
-  const userFilter = useSelector(selectStatusFilter);
+  const contactsFilter = useSelector(selectStatusFilter);
   const items = useSelector(selectFilteredContacts);
+  const { loading, error } = useSelector(getState);
   const dispatch = useDispatch();
 
   const deleteContact = id => {
-    return dispatch(removePhoneNumber(id));
+    return dispatch(removeContact(id));
   };
 
   useEffect(() => {
@@ -35,10 +31,14 @@ export const App = () => {
     const {
       elements: { name, number },
     } = e.target;
-    // const formName = form.elements.name.value;
-    // const formNumber = form.elements.number.value;
+    const nameUser = items.find(
+      item => item.name === name.value ?? item.number === number.value
+    );
+    if (nameUser) {
+      return alert(`${nameUser.name} alredy have`);
+    }
     dispatch(
-      addPhoneNumber({
+      addContact({
         name: name.value,
         phone: number.value,
       })
@@ -48,7 +48,7 @@ export const App = () => {
 
   const handleFilter = e => {
     const search = e.target.value;
-    dispatch(userFilter(search));
+    dispatch(filterContacts(search));
   };
 
   return (
@@ -60,8 +60,10 @@ export const App = () => {
     >
       <h1>Phonebook</h1>
       <FormContact handleSubmit={handleSubmit} />
-      <Filter filter={userFilter} handleFilter={handleFilter} />
+      <Filter filter={contactsFilter} handleFilter={handleFilter} />
       <h2>Contacts</h2>
+      {loading && <p>...Loading</p>}
+      {error && <p>Somithing went wrong</p>}
       <ListContacts filteredContacts={items} deleteContact={deleteContact} />
     </div>
   );
