@@ -1,7 +1,22 @@
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { removeContact, fetchContacts } from 'redax/operation';
+import { selectFilteredContacts } from 'redax/selectors';
 
-export const ListContacts = ({ filteredContacts, deleteContact }) => {
-  const user = filteredContacts.map(({ id, name, phone }) => {
+export const ListContacts = () => {
+  const items = useSelector(selectFilteredContacts);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
+  const deleteContact = id => {
+    return dispatch(removeContact(id));
+  };
+
+  const user = items.map(({ id, name, phone }) => {
     return (
       <li
         key={id}

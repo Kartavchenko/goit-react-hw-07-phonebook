@@ -1,6 +1,32 @@
 import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { addContact } from 'redax/operation';
+import { selectFilteredContacts } from 'redax/selectors';
 
-export const FormContact = ({ handleSubmit }) => {
+export const FormContact = () => {
+  const dispatch = useDispatch();
+  const items = useSelector(selectFilteredContacts);
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    const form = e.target;
+    const {
+      elements: { name, number },
+    } = e.target;
+    const nameUser = items.find(
+      item => item.name === name.value ?? item.number === number.value
+    );
+    if (nameUser) {
+      return alert(`${nameUser.name} alredy have`);
+    }
+    dispatch(
+      addContact({
+        name: name.value,
+        phone: number.value,
+      })
+    );
+    form.reset();
+  };
   return (
     <div>
       <form onSubmit={handleSubmit}>
